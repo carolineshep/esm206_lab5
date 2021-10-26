@@ -112,8 +112,31 @@ ggplot(data = compact_suv, aes(sample = cty)) +
 ```
 
 
+```{r}
+car_stats <- compact_suv %>% 
+  group_by(class) %>% 
+  summarize(mean_city = mean(cty),
+            sd_city = sd(cty),
+            sample_size = n())
+
+car_stats
+```
 
 
+```{r}
+compact_sample <- compact_suv %>% 
+  filter(class == "compact") %>% 
+  pull(cty)
 
+suv_sample <- compact_suv %>% 
+  filter(class == "suv") %>% 
+  pull(cty)
 
+cars_t <- t.test(compact_sample, suv_sample)
+```
+
+There's almost a 0% chance these two samples are pulled from populations with the same mean gas mileage
+stats speak: reject the null hypothesis of equal mean city gas mileages
+
+Mean gas mileage for compact cars and SUVs differs significantly. (t(`r cars_t$parameter`) = `r cars_t$statistic`, p , 0.001, $\alpha$ = 0.05).
 

@@ -86,6 +86,30 @@ The p-value of `r trees_t$p.value` means that the mean of tree height between pi
 
 The value is 0.018, so there is a 1.8% chance of finding sample means at least as different as those I found if they were drawn from populations with the same mean height.
 
+## Example 2
+
+using the 'mpg' dataset  to compare city gas mileage for SUVs and compact cars.
+
+use view(mpg) in console to view dataset
+
+use unique(mpg$class) to see unique classes in the dataset
+
+```{r}
+# create a new subset called compact_suv that only contains observations where the class is suv OR compact
+
+compact_suv <- mpg %>% 
+  filter(class %in% c("suv", "compact"))
+```
+
+```{r}
+ggplot(data = compact_suv, aes(x = cty)) +
+  geom_histogram() +
+  facet_wrap(~ class)
+
+ggplot(data = compact_suv, aes(sample = cty)) +
+  geom_qq() +
+  facet_wrap(~ class)
+```
 
 
 
